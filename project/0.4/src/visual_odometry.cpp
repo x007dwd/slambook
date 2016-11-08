@@ -42,7 +42,9 @@ VisualOdometry::VisualOdometry() :
     key_frame_min_rot   = Config::get<double> ( "keyframe_rotation" );
     key_frame_min_trans = Config::get<double> ( "keyframe_translation" );
     map_point_erase_ratio_ = Config::get<double> ( "map_point_erase_ratio" );
-    orb_ = cv::ORB::create ( num_of_features_, scale_factor_, level_pyramid_ );
+   // orb_ = cv::ORB::create ( num_of_features_, scale_factor_, level_pyramid_ );
+    detector =  cv::FeatureDetector::create("ORB");
+    descriptor = cv::DescriptorExtractor::create("ORB");
 }
 
 VisualOdometry::~VisualOdometry()
@@ -106,14 +108,14 @@ bool VisualOdometry::addFrame ( Frame::Ptr frame )
 void VisualOdometry::extractKeyPoints()
 {
     boost::timer timer;
-    orb_->detect ( curr_->color_, keypoints_curr_ );
+    detector->detect ( curr_->color_, keypoints_curr_ );
     cout<<"extract keypoints cost time: "<<timer.elapsed() <<endl;
 }
 
 void VisualOdometry::computeDescriptors()
 {
     boost::timer timer;
-    orb_->compute ( curr_->color_, keypoints_curr_, descriptors_curr_ );
+    descriptor->compute ( curr_->color_, keypoints_curr_, descriptors_curr_ );
     cout<<"descriptor computation cost time: "<<timer.elapsed() <<endl;
 }
 

@@ -43,7 +43,8 @@ public:
     Frame::Ptr  ref_;       // reference key-frame 
     Frame::Ptr  curr_;      // current frame 
     
-    cv::Ptr<cv::ORB> orb_;  // orb detector and computer 
+    cv::Ptr<cv::FeatureDetector> detector;  // orb detector 
+    cv::Ptr<cv::DescriptorExtractor> descriptor; // FeatureDetector
     vector<cv::KeyPoint>    keypoints_curr_;    // keypoints in current frame
     Mat                     descriptors_curr_;  // descriptor in current frame 
     
